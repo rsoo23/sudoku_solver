@@ -23,12 +23,9 @@ int main(int ac, char **av)
         ft_gridassign(grid, av);
         flag = ft_makeflagemptygrid(grid);
         startpoint = ft_findstart(grid);
-        ft_putstr("\n");
         ft_solvegrid('+', '1', grid, flag, startpoint, 0, 0);
-        ft_putstr("\n");
+        free(startpoint);
+        ft_freegrids(grid, flag);
     }
-    free(grid);
-    free(flag);
-    free(startpoint);
     return (0);
 }

@@ -26,9 +26,12 @@ void    ft_gridassign(char **grid, char **av);
 void    ft_printgrid(char **grid);
 char     **ft_makeflagemptygrid(char **grid);
 int     *ft_findstart(char **grid);
+void    ft_freegrids(char **grid, char **flag);
 // ft_solvegrid.c
 void    ft_solvegrid(char dir, char num, char **grid, char **flag, int *startpoint, int r, int c);
-void    ft_reachrowend(char **grid, char **flag, int *startpoint, int r, int c);
+char    ft_testnum(char dir, char num, char **grid, int r, int c);
+void    ft_updategrid(char *dir, char *num, char **grid, char **flag, int *r, int *c);
+void    ft_backtrack(char *dir, char *num, char **grid, char **flag, int *startpoint, int *r, int *c);
 int     ft_isvalid(char n, char **grid, int r, int c);
 int     ft_checkrow(char n, char **grid, int r, int c);
 int     ft_checkcol(char n, char **grid, int r, int c);

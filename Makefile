@@ -12,7 +12,7 @@
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
-CFILES = main.c ft_std.c ft_solvegrid_ver2.c ft_grid.c ft_errorhandling.c
+CFILES = main.c ft_std.c ft_solvegrid_ver3.c ft_grid.c ft_errorhandling.c
 
 all: output
 

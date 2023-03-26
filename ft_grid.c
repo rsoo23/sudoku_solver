@@ -27,6 +27,19 @@ char    **ft_gridmalloc(void)
     return (grid);
 }
 
+void    ft_freegrids(char **grid, char **flag)
+{
+    int     y;
+
+    y = 0;
+    while (y < 9)
+    {
+        free(grid[y]);
+        free(flag[y]);
+        y++;
+    }
+}
+
 void    ft_gridassign(char **grid, char **av)
 {
     int     x;

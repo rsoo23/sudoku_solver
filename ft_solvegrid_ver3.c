@@ -1,84 +1,89 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_solvegrid_ver2.c                                :+:      :+:    :+:   */
+/*   ft_solvegrid.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rsoo <rsoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/26 22:51:16 by rsoo              #+#    #+#             */
-/*   Updated: 2023/03/26 22:51:16 by rsoo             ###   ########.fr       */
+/*   Created: 2023/03/19 23:48:26 by rsoo              #+#    #+#             */
+/*   Updated: 2023/03/19 23:48:26 by rsoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rush-1.h"
-#include <stdio.h>
+// #include <stdio.h>
 // printf("flag: %c, dir: %c, num: %c, grid: %c, r: %d, c: %d\n", flag[r][c], dir, num, grid[r][c], r, c);
-// printf("input: %c\n", num);
 
 void    ft_solvegrid(char dir, char num, char **grid, char **flag, int *startpoint, int r, int c)
 {
-    while (r <= 9)
+    while (r < 9)
     {
-        ft_reachrowend(grid, flag, startpoint, r, c);
-        if (flag[r][c] == '0' && dir == '-')
+        if (flag[r][c] == '1')
         {
-            if (c == 0 && r != 0)
-                ft_solvegrid('-', grid[r - 1][8], grid, flag, startpoint, r - 1, 8);
-            ft_solvegrid('-', grid[r][c - 1], grid, flag, startpoint, r, c - 1);
-        }
-        else if (flag[r][c] == '1')
-        {
-            if (dir == '-')
-                num++;
-            while (num <= '9')
-            {
-                if (ft_isvalid(num, grid, r, c))
-                {
-                    grid[r][c] = num;
-                    dir = '+';
-                    num = '1';
-                    c++;
-                    break ;
-                }
-                num++;
-            }
-            if (num > '9')
-            {
-                if (r == startpoint[0] && c == startpoint[1])
-                {
-                    ft_putstr("No existing solution");
-                    exit(0);
-                }
-                grid[r][c] = '.';
-                if (c == 0 && r != 0)
-                {
-                    r--;
-                    c = 8;
-                }
-                else
-                    c--;
-                num = grid[r][c];
-                dir = '-';
-            }
+            num = ft_testnum(dir, num, grid, r, c);
+            if (num == '0')
+                ft_backtrack(&dir, &num, grid, flag, startpoint, &r, &c);
+            else
+                ft_updategrid(&dir, &num, grid, flag, &r, &c);
         }
         else if (flag[r][c] == '0')
         {
-            num = '1';
-            c++; 
+            if (dir == '-')
+                ft_backtrack(&dir, &num, grid, flag, startpoint, &r, &c);
+            else
+                ft_updategrid(&dir, &num, grid, flag, &r, &c);
+        }
+        if (c == 9)
+        {
+            r++;
+            c = 0;
         }
     }
+    ft_printgrid(grid);
 }
 
-void    ft_reachrowend(char **grid, char **flag, int *startpoint, int r, int c)
+char    ft_testnum(char dir, char num, char **grid, int r, int c)
 {
-    if (c == 9)
+    if (dir == '-')
+        num++;
+    while (num <= '9')
     {
-        if (r == 8)
+        if (ft_isvalid(num, grid, r, c))
+            return (num);
+        num++;
+    }
+    return ('0');
+}
+
+void    ft_updategrid(char *dir, char *num, char **grid, char **flag, int *r, int *c)
+{
+    if (flag[*r][*c] == '1')
+        grid[*r][*c] = *num;
+    *dir = '+';
+    *num = '1';
+    (*c)++;
+}
+
+void    ft_backtrack(char *dir, char *num, char **grid, char **flag, int *startpoint, int *r, int *c)
+{            
+    if (*r == startpoint[0] && *c == startpoint[1] && *num == '0')
+    {
+        ft_putstr("No existing solution");
+        exit(0);
+    }
+    else
+    {
+        if (flag[*r][*c] == '1')
+            grid[*r][*c] = '.';
+        if (*c == 0 && *r != 0)
         {
-            ft_printgrid(grid);
-            exit(0);
+            (*r)--;
+            *c = 8;
         }
-        ft_solvegrid('+', '1', grid, flag, startpoint, r + 1, 0);
+        else
+            (*c)--;
+        *num = grid[*r][*c];
+        *dir = '-';
     }
 }
 
