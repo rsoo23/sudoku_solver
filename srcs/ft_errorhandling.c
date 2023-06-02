@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rush-1.h"
+#include "../includes/sudoku_solver.h"
 
 int ft_checkarg(int ac, char **av)
 {

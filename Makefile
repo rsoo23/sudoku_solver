@@ -10,12 +10,29 @@
 #                                                                              #
 # **************************************************************************** #
 
+NAME = solver
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
-CFILES = main.c ft_std.c ft_solvegrid_ver3.c ft_grid.c ft_errorhandling.c
+SRCS_DIR = srcs/
+SRCS = main.c ft_std.c ft_solvegrid_ver3.c ft_grid.c ft_errorhandling.c
+SRCS_CFILES = $(addprefix $(SRCS_DIR), $(SRCS))
+OBJS = $(SRCS_CFILES:.c=.o)
 
-all: output
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-output: $(CFILES)
+all: $(NAME)
+
+$(NAME): $(OBJS)
 	@echo "Compiling all files... Creating output file..."
-	@$(CC) $(CFLAGS) $(CFILES)
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+
+clean:
+	$(RM) $(OBJ)
+
+fclean: clean
+	$(RM) $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re

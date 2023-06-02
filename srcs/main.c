@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rush-1.h"
+#include "../includes/sudoku_solver.h"
 
 int main(int ac, char **av)
 {
